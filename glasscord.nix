@@ -23,7 +23,7 @@
 
 	default_theme = pkgs.stdenv.mkDerivation {
     name = "style-glasscord";
-		
+
     src = pkgs.fetchFromGitHub {
       owner = "AryToNeX";
       repo = "Glasscord";
@@ -35,4 +35,16 @@
       cp extras/discord_example_theme/discord_example.theme.css $out
     '';
   };
+
+	set_theme_on_startup = theme: let
+		style_file = pkgs.writeText "glasscord-theme" (builtins.toJSON {
+			cssPath = theme;
+		});
+	in pkgs.writeTextFile {
+		name = "glasscord-theme";
+		destination = "/etc/profile.d/glasscord-theme.sh";
+		text = ''
+			cp ${style_file} ~/.config/glasscord/discord/CSSLoader/config.json5
+		'';
+	};
 }

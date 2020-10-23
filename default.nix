@@ -3,12 +3,13 @@
 let
 	glasscord_base = (pkgs.callPackage ./glasscord.nix {});
 in rec {
-	patch = {
+	function = {
 		patch_discord_for_glasscord = glasscord_base.patch;
+		set_glasscord_theme_on_startup = glasscord_base.set_theme_on_startup;
 	};
 
 	ricePkgs = {
-		glasscord = patch.patch_discord_for_glasscord pkgs.discord;
+		glasscord = function.patch_discord_for_glasscord pkgs.discord;
 		glasscord_default_theme = glasscord_base.default_theme;
 	};
 
@@ -16,6 +17,7 @@ in rec {
 			tested = with ricePkgs; [
 				glasscord
 				glasscord_default_theme
+				(function.set_glasscord_theme_on_startup ricePkgs.glasscord_default_theme)
 			];
 		in pkgs.stdenv.mkDerivation {
 			name = "ricenur-check";
