@@ -11,6 +11,7 @@ in rec {
 	ricePkgs = {
 		glasscord = function.patch_discord_for_glasscord pkgs.discord;
 		glasscord_default_theme = glasscord_base.default_theme;
+		plasmoids = (pkgs.callPackage ./plasmoids.nix {});
 	};
 
 	tests = let
