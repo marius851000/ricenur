@@ -38,16 +38,19 @@ A glasscord enabled discord
 Default glasscord theme.
 
 ### `function.set_glasscord_theme_on_startup`
-note: this is invalid. I'v worked on a workaround, but this need to be updated.
+Create a script that will set the glasscord theme passed as argument active.
 
-Will set the theme passed as argument to be loaded at login. You can add it to `home.packages` in home-manager for it to be loaded at login.
+If this doesn't work, you may need to:
+- start discord
+- quit it (tight click on the system tray -> quit discord)
+- run `home-manager switch` again
+- should work now
 
-It need to be copied, and can't be linked from the nix store, as glasscord doesn't start if it can't write it.
+Example for home-manager:
 
-Example : `ricenur.function.set_glasscord_theme_on_startup ricenur.ricePkgs.glasscord_default_theme`
-
-Note:
-You may need to start glasscord once, disconnect and reconnect for this to apply correctly.
+```
+home.activation.setGlasscordTheme = lib.hm.dag.entryAfter [ "writeBoundary" ] (ricenur.function.set_glasscord_theme_script ricenur.ricePkgs.glasscord_default_theme;);
+```
 
 ## plasmoids
 This nur also include some plasmoids. You can install them system wide by adding them to `environment.systemPackages` in the system-wide `configuration.nix` file (of NixOS, usually in `/etc/nixos`. Remember to rebuild with `sudo nixos-rebuild` and restart the computer to see the effect).
