@@ -14,4 +14,20 @@
 			cp -rf * $out/share/plasma/plasmoids/org.kde.plasma.advancedradio
 		'';
 	};
+
+	animated_wallpaper = pkgs.stdenv.mkDerivation {
+		name = "animated_image_wallpaper";
+
+		src = pkgs.fetchFromGitHub {
+			owner = "dark-eye";
+			repo = "com.darkeye.animatedImage";
+			rev = "v0.2.8";
+			sha256 = "VS9khjD5YcMZgOcPyIZ3nGuZn17cLgwTuHR6EfX1CaM=";
+		};
+
+		installPhase = ''
+			mkdir -p $out/share/plasma/wallpapers/com.darkeye.animatedImage
+			cp -rf * $out/share/plasma/wallpapers/com.darkeye.animatedImage
+		'';
+	};
 }
