@@ -38,6 +38,8 @@ A glasscord enabled discord
 Default glasscord theme.
 
 ### `function.set_glasscord_theme_on_startup`
+note: this is invalid. I'v worked on a workaround, but this need to be updated.
+
 Will set the theme passed as argument to be loaded at login. You can add it to `home.packages` in home-manager for it to be loaded at login.
 
 It need to be copied, and can't be linked from the nix store, as glasscord doesn't start if it can't write it.

@@ -36,16 +36,13 @@
     '';
   };
 
-	set_theme_on_startup = theme: let
+	set_theme_on_startup_script = theme: let
 		style_file = pkgs.writeText "glasscord-theme" (builtins.toJSON {
 			cssPath = theme;
 		});
-	in pkgs.writeTextFile {
-		name = "glasscord-theme";
-		destination = "/etc/profile.d/glasscord-theme.sh";
-		text = ''
-			mkdir -p /home/marius/.config/glasscord/discord/CSSLoader/
-			cp -f ${style_file} ~/.config/glasscord/discord/CSSLoader/config.json5
-		'';
-	};
+	in
+	''
+		mkdir -p /home/marius/.config/glasscord/discord/CSSLoader/
+		cp -f ${style_file} ~/.config/glasscord/discord/CSSLoader/config.json5
+	'';
 }

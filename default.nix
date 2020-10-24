@@ -5,7 +5,7 @@ let
 in rec {
 	function = {
 		patch_discord_for_glasscord = glasscord_base.patch;
-		set_glasscord_theme_on_startup = glasscord_base.set_theme_on_startup;
+		set_glasscord_theme_script = glasscord_base.set_theme_on_startup_script;
 	};
 
 	ricePkgs = {
@@ -18,11 +18,10 @@ in rec {
 			tested = with ricePkgs; [
 				glasscord
 				glasscord_default_theme
-				(function.set_glasscord_theme_on_startup ricePkgs.glasscord_default_theme)
 				plasmoids.advanced_radio_player
 				plasmoids.animated_wallpaper
 			];
-			
+
 		in pkgs.stdenv.mkDerivation {
 			name = "ricenur-check";
 			CONTENT = (pkgs.lib.concatStringsSep "\n"
