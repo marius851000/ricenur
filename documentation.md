@@ -2,6 +2,27 @@
 
 Welcome to the documentation of ricenur. You find here documentation about this repository dedicated to help you enhance your graphical environment when you use the nix package manager (specifically under NixOS).
 
+To import this package, it is expected you load the `default.nix` file.
+
+## nixos modules (aka `flake.nix`)
+I also added nixos module. The name of each module will be provided under the appropriate section of the configuration.
+
+There are two way to enable them
+### your are using `flake.nix` for the system configuration
+You need to add `inputs.ricenur.url = "github:marius851000/ricenur";` below your input, add ricenur as an input for the output function.
+
+You can include the module using by adding them to the import like:
+```
+imports = [
+	...
+	ricenur.nixosModules.plasma_advanced_radio
+]
+```
+### not using a flake
+I haven't tried this, but here are some pointer:
+
+- add `ricenur` to nix channel / pin it
+- add `<ricenur/nixosModules/{module name}.nix>` in the `imports = []` part of the configuration.nix
 ## glasscord
 I included various stuff for glasscord (discord with transparency).
 
@@ -51,6 +72,8 @@ environment.systemPackages = with pkgs; [
 ];
 ```
 (remember that `environment.systemPackages` also need the `ricenur.ricePkgs.plasmoids.advanced_radio_player` to work)
+
+All of the upper is done automatically (including adding `advanced_radio_player` to the `systemPackages`) by importing the nixos module `plasma_advanced_radio`.
 
 ### `ricePkgs.plasmoids.animated_wallpaper`
 Add the animated wallpaper, who allow to play animated image in the wallpaper. By default, it only support gif. To add support for webp, you need to add this to your `configuration.nix`
