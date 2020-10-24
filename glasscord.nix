@@ -44,7 +44,8 @@
 		name = "glasscord-theme";
 		destination = "/etc/profile.d/glasscord-theme.sh";
 		text = ''
-			cp ${style_file} ~/.config/glasscord/discord/CSSLoader/config.json5
+			mkdir -p /home/marius/.config/glasscord/discord/CSSLoader/
+			cp -f ${style_file} ~/.config/glasscord/discord/CSSLoader/config.json5
 		'';
 	};
 }

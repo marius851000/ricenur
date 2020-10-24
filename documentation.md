@@ -44,6 +44,9 @@ It need to be copied, and can't be linked from the nix store, as glasscord doesn
 
 Example : `ricenur.function.set_glasscord_theme_on_startup ricenur.ricePkgs.glasscord_default_theme`
 
+Note:
+You may need to start glasscord once, disconnect and reconnect for this to apply correctly.
+
 ## plasmoids
 This nur also include some plasmoids. You can install them system wide by adding them to `environment.systemPackages` in the system-wide `configuration.nix` file (of NixOS, usually in `/etc/nixos`. Remember to rebuild with `sudo nixos-rebuild` and restart the computer to see the effect).
 
