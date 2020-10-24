@@ -19,7 +19,10 @@ in rec {
 				glasscord
 				glasscord_default_theme
 				(function.set_glasscord_theme_on_startup ricePkgs.glasscord_default_theme)
+				plasmoids.advanced_radio_player
+				plasmoids.animated_wallpaper
 			];
+			
 		in pkgs.stdenv.mkDerivation {
 			name = "ricenur-check";
 			CONTENT = (pkgs.lib.concatStringsSep "\n"
