@@ -89,3 +89,5 @@ nixpkgs.overlays = [ (self: super: {
 ```
 
 (this will add the `qt514.qtimageformats` dependancies to `plasma.plasma5`)
+
+The nixos module is `animated_wallpaper`. There are no additional step to do when using it.
