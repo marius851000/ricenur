@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs ? import <nixpkgs> {}}:
 
 let
 	glasscord_base = (pkgs.callPackage ./glasscord.nix {});

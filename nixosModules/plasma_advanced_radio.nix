@@ -19,7 +19,5 @@ in
 		gst_all_1.gst-libav
 		gst_all_1.gstreamer
 		gst_all_1.gst-vaapi
-		gst_all_1.gst-validate
-		gst_all_1.gst-rtsp-server
 	];
 }
