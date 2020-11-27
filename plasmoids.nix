@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
 
-{
+let
+	base_plasmoid_dir = "$out/share/plasma/plasmoids";
+in {
 	advanced_radio_player = pkgs.stdenv.mkDerivation {
 		name = "plasma-advanced-radio";
 		src = pkgs.fetchurl {
@@ -10,8 +12,8 @@
 		};
 
 		installPhase = ''
-			mkdir -p $out/share/plasma/plasmoids/org.kde.plasma.advancedradio
-			cp -rf * $out/share/plasma/plasmoids/org.kde.plasma.advancedradio
+			mkdir -p ${base_plasmoid_dir}/org.kde.plasma.advancedradio
+			cp -rf * ${base_plasmoid_dir}/org.kde.plasma.advancedradio
 		'';
 	};
 
@@ -28,6 +30,41 @@
 		installPhase = ''
 			mkdir -p $out/share/plasma/wallpapers/com.darkeye.animatedImage
 			cp -rf * $out/share/plasma/wallpapers/com.darkeye.animatedImage
+		'';
+	};
+
+	panon = pkgs.stdenv.mkDerivation rec {
+		pname = "panon";
+		version = "0.4.2";
+
+		nativeBuildInputs = [
+			pkgs.cmake pkgs.gettext
+		];
+
+		phases = [ "unpackPhase" "buildPhase" "installPhase" ];
+
+		src = pkgs.fetchFromGitHub {
+			owner = "rbn42";
+			repo = pname;
+			rev = "v${version}";
+			sha256 = "6mitc6pg/g2mBubOFjxh2B+sSko0p0h6uFiVjXLvt7k=";
+			fetchSubmodules = true;
+		};
+
+		buildPhase = ''
+			pushd translations
+			mkdir build
+			cd build
+			cmake .. -DLOCALE_INSTALL_DIR=${base_plasmoid_dir}/panon/contents/locale
+			find
+			popd
+		'';
+
+		installPhase = ''
+			mkdir -p ${base_plasmoid_dir}/panon
+			cp -rL plasmoid/* ${base_plasmoid_dir}/panon
+			pushd translations/build
+			make install
 		'';
 	};
 }

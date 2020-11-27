@@ -99,3 +99,6 @@ nixpkgs.overlays = [ (self: super: {
 (this will add the `qt514.qtimageformats` dependancies to `plasma.plasma5`)
 
 The nixos module is `animated_wallpaper`. There are no additional step to do when using it.
+
+### `ricePkgs.plasmoids.panon`
+Add the panon music visualisation plasmoids. Some extra dependancies are required. They can be installed with the nixos module `panon`.
