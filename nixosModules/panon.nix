@@ -17,7 +17,7 @@ in {
         plasma-workspace = (super.plasma5.plasma-workspace.overrideAttrs
           (oldAttrs: rec {
             buildInputs = oldAttrs.buildInputs
-              ++ [ pkgs.qt514.qtwebsockets pkgs.python3 ] ++ python_package;
+              ++ [ pkgs.qt5.qtwebsockets pkgs.python3 ] ++ python_package;
             nativeBuildInputs = oldAttrs.nativeBuildInputs ++ python_package;
             postInstall = (oldAttrs.postInstall or "") + ''
               wrapProgram $out/bin/plasmashell \

@@ -9,7 +9,7 @@ in {
 	nixpkgs.overlays = [ (self: super: {
 		plasma5 = super.plasma5 // {
 			plasma-workspace = (super.plasma5.plasma-workspace.overrideAttrs (oldAttrs: rec {
-				buildInputs = oldAttrs.buildInputs ++ [pkgs.qt514.qtimageformats];
+				buildInputs = oldAttrs.buildInputs ++ [pkgs.qt5.qtimageformats];
 			}));
 		};
 	})];
