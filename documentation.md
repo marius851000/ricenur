@@ -88,15 +88,13 @@ Add the animated wallpaper, who allow to play animated image in the wallpaper. B
 
 ```
 nixpkgs.overlays = [ (self: super: {
-	plasma5 = super.plasma5 // {
-		plasma-workspace = (super.plasma5.plasma-workspace.overrideAttrs (oldAttrs: rec {
+	plasma-workspace = (super.plasma-workspace.overrideAttrs (oldAttrs: rec {
 			buildInputs = oldAttrs.buildInputs ++ [pkgs.qt5.qtimageformats];
 		}));
-	};
 })];
 ```
 
-(this will add the `qt5.qtimageformats` dependancies to `plasma.plasma5`)
+(this will add the `qt5.qtimageformats` dependancies to `plasma-workspace`)
 
 The nixos module is `animated_wallpaper`. There are no additional step to do when using it.
 
