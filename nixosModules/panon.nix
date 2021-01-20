@@ -8,24 +8,30 @@ let
     pillow
   ]; # for pulseaudio
 
-  ricenur = pkgs.callPackage ../default.nix { };
+  ricenur = pkgs.callPackage ../default.nix {};
   panon = ricenur.ricePkgs.plasmoids.panon;
-in {
+  tool = import ../tool.nix;
+in
+{
   nixpkgs.overlays = [
-    (self: super: {
-      plasma-workspace = (super.plasma-workspace.overrideAttrs (oldAttrs: rec {
-        buildInputs = oldAttrs.buildInputs
+    (
+      tool.make_plasma_workspace_overlay (
+        pkgs: old: {
+          buildInputs = old.buildInputs
           ++ [ pkgs.qt5.qtwebsockets pkgs.python3 ] ++ python_package;
-        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ python_package;
-        postInstall = (oldAttrs.postInstall or "") + ''
-          wrapProgram $out/bin/plasmashell \
-          	--prefix PATH : ${pkgs.python3}/bin:${pkgs.pulseaudio}/bin:${pkgs.binutils-unwrapped}/bin \
-          	--prefix PYTHONPATH : $PYTHONPATH \
-          	--prefix LD_LIBRARY_PATH : ${pkgs.pulseaudio}/lib
-        '';
-      }));
-    })
+          nativeBuildInputs = old.nativeBuildInputs ++ python_package;
+          postInstall = (old.postInstall or "") + ''
+            wrapProgram $out/bin/plasmashell \
+            	--prefix PATH : ${pkgs.python3}/bin:${pkgs.pulseaudio}/bin:${pkgs.binutils-unwrapped}/bin \
+            	--prefix PYTHONPATH : $PYTHONPATH \
+            	--prefix LD_LIBRARY_PATH : ${pkgs.pulseaudio}/lib
+          '';
+        }
+      )
+    )
   ];
 
   environment.systemPackages = [ panon ];
 }
+
+#TODO: check if it possible to minise the content of the wrapProgram in some way (panon should call python somewhere, patch for the absolute path)
