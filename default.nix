@@ -5,13 +5,16 @@ let
 in
 rec {
   function = {
-    patch_discord_for_glasscord = glasscord_base.patch;
+    patch_discord_for_glasscord = glasscord_base.patch_discord;
+    patch_vscode_for_glasscord = glasscord_base.patch_vscode;
     set_glasscord_theme_script = glasscord_base.set_theme_on_startup_script;
   };
 
   ricePkgs = {
-    glasscord = function.patch_discord_for_glasscord pkgs.discord;
-    glasscord_default_theme = glasscord_base.default_theme;
+    glasscord_discord = function.patch_discord_for_glasscord pkgs.discord;
+    glasscord_default_theme_discord = glasscord_base.default_theme_discord;
+    glasscord_vscode = function.patch_vscode_for_glasscord pkgs.vscode glasscord_base.default_theme_vscode;
+    glasscord_vscodium = function.patch_vscode_for_glasscord pkgs.vscodium glasscord_base.default_theme_vscode;
     plasmoids = (pkgs.callPackage ./plasmoids.nix {});
   };
 
