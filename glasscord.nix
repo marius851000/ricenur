@@ -61,7 +61,7 @@ in
     src = glasscord_src;
     installPhase = ''
       cp extras/vscode_example_theme/vscode_example.theme.css $out
-      substituteInPlace $out --replace "rgba(0,0,0,0.5)" "rgba(0,0,0,0.8)"
+      substituteInPlace $out --replace "rgba(0,0,0,0.5)" "rgba(0.1,0.1,0.1,0.8)"
     '';
   };
 
