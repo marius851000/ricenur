@@ -42,7 +42,8 @@ in
                                 --replace ./out/main ./glasscord.asar
           					          cat ${theme} >> out/vs/workbench/workbench.desktop.main.css
                                	popd
-        '';
+                              wrapProgram $out/bin/codium --add-flags "--use-gl=desktop"
+        ''; # use-gl from here: https://github.com/electron/electron/issues/25153#issuecomment-843688494
       }
     );
 
