@@ -16,14 +16,16 @@ rec {
     glasscord_vscode = function.patch_vscode_for_glasscord pkgs.vscode glasscord_base.default_theme_vscode;
     glasscord_vscodium = function.patch_vscode_for_glasscord pkgs.vscodium glasscord_base.default_theme_vscode;
     plasmoids = (pkgs.callPackage ./plasmoids.nix {});
+    kwinmodules = (pkgs.callPackage ./kwinmodules.nix {});
   };
 
   tests = let
     tested = with ricePkgs; [
-      glasscord
+      glasscord_vscodium
       glasscord_default_theme
       plasmoids.advanced_radio_player
       plasmoids.animated_wallpaper
+      kwinmodules.kde-rounded-corner
     ];
 
   in
