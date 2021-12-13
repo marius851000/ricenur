@@ -49,7 +49,7 @@ in
       owner = "rbn42";
       repo = pname;
       rev = "v${version}";
-      sha256 = "";
+      sha256 = "sha256-1ivTltkKW/hM7Ot4s1gKoWhQ+60kF0MQB1Z8jILvOjQ=";
       fetchSubmodules = true;
     };
 
