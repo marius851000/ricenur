@@ -17,14 +17,14 @@
     prePatch = ''
       substituteInPlace CMakeLists.txt \
         --replace $\{MODULEPATH} "$out/share" \
-        --replace $\{DATAPATH} "$out/share"
-    '';
+        --replace $\{DATAPATH} "$out/lib/qt-5.15.3/plugins"
+    ''; #TODO: auto Qt version
 
     nativeBuildInputs = [ pkgs.cmake pkgs.extra-cmake-modules ];
 
-    postInstall = ''
+    /*postInstall = ''
       mv $out/share/kservices5/kwin/* $out/share/kservices5
-    '';
+    '';*/
 
     buildInputs = with pkgs.qt5; with pkgs.libsForQt5; [
       qtbase
