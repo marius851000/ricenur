@@ -16,8 +16,8 @@
 
     prePatch = ''
       substituteInPlace CMakeLists.txt \
-        --replace $\{MODULEPATH} "$out/share" \
-        --replace $\{DATAPATH} "$out/lib/qt-5.15.3/plugins"
+        --replace $\{MODULEPATH} "$out/lib/qt-5.15.3/plugins" \
+        --replace $\{DATAPATH} "$out/share"
     ''; #TODO: auto Qt version
 
     nativeBuildInputs = [ pkgs.cmake pkgs.extra-cmake-modules ];
