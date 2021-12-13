@@ -22,6 +22,10 @@
 
     nativeBuildInputs = [ pkgs.cmake pkgs.extra-cmake-modules ];
 
+    postInstall = ''
+      mv $out/share/kservices5/kwin/* $out/share/kservices5
+    '';
+
     buildInputs = with pkgs.qt5; with pkgs.libsForQt5; [
       qtbase
       qttools
