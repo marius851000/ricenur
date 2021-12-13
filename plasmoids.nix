@@ -69,4 +69,19 @@ in
       make install
     '';
   };
+
+
+	smart_video_player = pkgs.stdenv.mkDerivation {
+		name = "smart_video_player";
+
+		src = pkgs.fetchurl {
+			url = "https://github.com/marius851000/ricenur-data/raw/6a547d17c715309ad1a8e1d20481c9272d429e98/smartvideowallpaper.tar.gz";
+			sha256 = "sha256-RTtnpoY7Hm0wR4eUZyw+RUTiZXKBH3ifJ+C9OAJINzo=";
+		};
+
+		installPhase = ''
+			mkdir -p $out/share/plasma/wallpapers/smartvideowallpaper
+			cp -rf * $out/share/plasma/wallpapers/smartvideowallpaper
+		'';
+	}; #TODO: upstream in nixpkgs ?
 }

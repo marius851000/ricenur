@@ -25,6 +25,7 @@ rec {
       glasscord_default_theme
       plasmoids.advanced_radio_player
       plasmoids.animated_wallpaper
+      plasmoids.smart_video_player
       kwinmodules.kde-rounded-corner
     ];
 
