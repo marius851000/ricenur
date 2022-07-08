@@ -18,12 +18,11 @@ in
       tool.make_plasma_workspace_overlay (
         pkgs: old: {
           buildInputs = old.buildInputs
-          ++ [ pkgs.qt5.qtwebsockets pkgs.python3 ] ++ python_package;
+          ++ [ pkgs.qt5.qtwebsockets ] ++ python_package;
           nativeBuildInputs = old.nativeBuildInputs ++ python_package;
           postInstall = (old.postInstall or "") + ''
             wrapProgram $out/bin/plasmashell \
-            	--prefix PATH : ${pkgs.python3}/bin:${pkgs.pulseaudio}/bin:${pkgs.binutils-unwrapped}/bin \
-            	--prefix PYTHONPATH : $PYTHONPATH \
+            	--prefix PATH : ${pkgs.pulseaudio}/bin:${pkgs.binutils-unwrapped}/bin \
             	--prefix LD_LIBRARY_PATH : ${pkgs.pulseaudio}/lib
           '';
         }

@@ -34,7 +34,41 @@ in
     '';
   };
 
-  panon = pkgs.stdenv.mkDerivation rec {
+  panon = let
+		soundcard = pypack: pypack.buildPythonPackage rec {
+			pname = "soundcard";
+			version = "0.4.2";
+
+			src = pkgs.fetchFromGitHub {
+				owner = "bastibe";
+				repo = "SoundCard";
+				rev = version;
+				sha256 = "sha256-sZdontcXBkiH+S8u6QFLP3gg+hwTooJmpRfG77GtKKQ=";
+			};
+
+			patchPhase = ''
+				substituteInPlace soundcard/pulseaudio.py \
+					--replace libpulse.so ${pkgs.pulseaudio}/lib/libpulse.so
+			''; 
+
+			doCheck = false; # require running pulseaudio. Maybe an OS test ?
+
+			propagatedBuildInputs = with pypack; [
+				cffi
+				numpy
+			];
+		};
+
+		python = pkgs.python3.withPackages (packages: with packages; [
+			packages.docopt
+			packages.numpy
+			packages.pyaudio
+			packages.cffi
+			packages.websockets
+			(soundcard packages)
+		]);
+		python_bin = "${python}/bin/python3";
+	in pkgs.stdenv.mkDerivation rec {
     pname = "panon";
     version = "0.4.6";
 
@@ -43,7 +77,9 @@ in
       pkgs.gettext
     ];
 
-    phases = [ "unpackPhase" "buildPhase" "installPhase" ];
+		dontUseCmakeConfigure = true;
+
+    #phases = [ "unpackPhase" "patchPhase" "buildPhase" "installPhase" ];
 
     src = pkgs.fetchFromGitHub {
       owner = "rbn42";
@@ -52,6 +88,22 @@ in
       sha256 = "sha256-1ivTltkKW/hM7Ot4s1gKoWhQ+60kF0MQB1Z8jILvOjQ=";
       fetchSubmodules = true;
     };
+
+		postPatch = ''
+			for PATCH_PYTHON_PATH in \
+				"plasmoid/contents/ui/config/ConfigBackend.qml" \
+				"plasmoid/contents/ui/config/ConfigEffect.qml" \
+				"plasmoid/contents/ui/ShaderSource.qml" \
+				"plasmoid/contents/ui/WsConnection.qml"
+			do
+				substituteInPlace $PATCH_PYTHON_PATH \
+					--replace python3 ${python_bin}
+			done
+      
+      # do not use the included SoundCard python library
+      rm -r third_party/SoundCard
+      rm -r plasmoid/contents/scripts/soundcard  
+    '';
 
     buildPhase = ''
       pushd translations
@@ -65,8 +117,10 @@ in
     installPhase = ''
       mkdir -p ${base_plasmoid_dir}/panon
       cp -rL plasmoid/* ${base_plasmoid_dir}/panon
+      echo 2
       pushd translations/build
       make install
+      popd
     '';
   };
 
