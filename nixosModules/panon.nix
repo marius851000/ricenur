@@ -1,13 +1,5 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
-  python_package = with pkgs.python3Packages; [
-    cffi
-    numpy
-    docopt
-    websockets
-    pillow
-  ]; # for pulseaudio
-
   ricenur = pkgs.callPackage ../default.nix {};
   panon = ricenur.ricePkgs.plasmoids.panon;
   tool = import ../tool.nix;
@@ -18,8 +10,7 @@ in
       tool.make_plasma_workspace_overlay (
         pkgs: old: {
           buildInputs = old.buildInputs
-          ++ [ pkgs.qt5.qtwebsockets ] ++ python_package;
-          nativeBuildInputs = old.nativeBuildInputs ++ python_package;
+          ++ [ pkgs.qt5.qtwebsockets ];
           postInstall = (old.postInstall or "") + ''
             wrapProgram $out/bin/plasmashell \
             	--prefix PATH : ${pkgs.pulseaudio}/bin:${pkgs.binutils-unwrapped}/bin \

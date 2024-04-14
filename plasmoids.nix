@@ -35,42 +35,17 @@ in
   };
 
   panon = let
-		soundcard = pypack: pypack.buildPythonPackage rec {
-			pname = "soundcard";
-			version = "0.4.2";
-
-			src = pkgs.fetchFromGitHub {
-				owner = "bastibe";
-				repo = "SoundCard";
-				rev = version;
-				sha256 = "sha256-sZdontcXBkiH+S8u6QFLP3gg+hwTooJmpRfG77GtKKQ=";
-			};
-
-			patchPhase = ''
-				substituteInPlace soundcard/pulseaudio.py \
-					--replace libpulse.so ${pkgs.pulseaudio}/lib/libpulse.so
-			''; 
-
-			doCheck = false; # require running pulseaudio. Maybe an OS test ?
-
-			propagatedBuildInputs = with pypack; [
-				cffi
-				numpy
-			];
-		};
-
-		python = pkgs.python3.withPackages (packages: with packages; [
-			packages.docopt
-			packages.numpy
-			packages.pyaudio
-			packages.cffi
-			packages.websockets
-			(soundcard packages)
+    python = pkgs.python3.withPackages (packages: with packages; [
+			docopt
+			numpy
+			pyaudio
+			cffi
+			websockets
 		]);
 		python_bin = "${python}/bin/python3";
-	in pkgs.stdenv.mkDerivation rec {
-    pname = "panon";
-    version = "0.4.6";
+  in pkgs.stdenv.mkDerivation {
+    pname = "panon-fixed";
+    version = "fork-git";
 
     nativeBuildInputs = [
       pkgs.cmake
@@ -79,13 +54,11 @@ in
 
 		dontUseCmakeConfigure = true;
 
-    #phases = [ "unpackPhase" "patchPhase" "buildPhase" "installPhase" ];
-
     src = pkgs.fetchFromGitHub {
-      owner = "rbn42";
-      repo = pname;
-      rev = "v${version}";
-      sha256 = "sha256-1ivTltkKW/hM7Ot4s1gKoWhQ+60kF0MQB1Z8jILvOjQ=";
+      owner = "Divyanshu-info";
+      repo = "panon";
+      rev = "b0e7e361725ee25e9f7cf817391d22121777ce7f";
+      sha256 = "sha256-aSHXcm4t1MtIrU11+hG+UqDb73LJza3mqJvcMU89Yjc=";
       fetchSubmodules = true;
     };
 
@@ -99,10 +72,6 @@ in
 				substituteInPlace $PATCH_PYTHON_PATH \
 					--replace python3 ${python_bin}
 			done
-      
-      # do not use the included SoundCard python library
-      rm -r third_party/SoundCard
-      rm -r plasmoid/contents/scripts/soundcard  
     '';
 
     buildPhase = ''
